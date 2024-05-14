@@ -7,24 +7,32 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{88c25495-0aad-40bf-a00a-fdbaa6d409b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Public">
+      <UniqueIdentifier>{a0e22ce8-3022-475d-b4af-c17f1f8d15cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Private">
+      <UniqueIdentifier>{4589dbc3-ec2c-4a9d-a23b-6ee747440841}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="App\Main.cpp">
       <Filter>App</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\Private\Window.cpp">
+      <Filter>Engine\Public</Filter>
     </ClCompile>
-    <ClCompile Include="AppWindow.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\Private\AppWindow.cpp">
+      <Filter>Engine\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Private\GraphicsEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\Public\Window.h">
+      <Filter>Engine\Public</Filter>
     </ClInclude>
-    <ClInclude Include="AppWindow.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\Public\AppWindow.h">
+      <Filter>Engine\Private</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Public\GraphicsEngine.h" />
   </ItemGroup>
 </Project>
