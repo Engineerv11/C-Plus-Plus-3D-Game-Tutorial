@@ -25,6 +25,7 @@
       <Filter>Engine\Private</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Private\GraphicsEngine.cpp" />
+    <ClCompile Include="Engine\Private\DXSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Public\Window.h">
@@ -34,5 +35,6 @@
       <Filter>Engine\Private</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Public\GraphicsEngine.h" />
+    <ClInclude Include="Engine\Public\DXSwapChain.h" />
   </ItemGroup>
 </Project>

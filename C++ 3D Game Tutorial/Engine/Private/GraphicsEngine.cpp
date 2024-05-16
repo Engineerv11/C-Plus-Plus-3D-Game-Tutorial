@@ -1,3 +1,4 @@
+#include "DXSwapChain.h"
 #include "GraphicsEngine.h"
 
 GraphicsEngine::GraphicsEngine()
@@ -44,16 +45,28 @@ bool GraphicsEngine::Init()
 		return false;
 	}
 
+	D3D11Device->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&DXGIDevice));
+	DXGIDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(&DXGIAdapter));
+	DXGIAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&DXGIFactory));
 
 	return true;
 }
 
 bool GraphicsEngine::Release()
 {
+	DXGIDevice->Release();
+	DXGIAdapter->Release();
+	DXGIFactory->Release();
+
 	ImmediateContext->Release();
 	D3D11Device->Release();
 
 	return true;
+}
+
+DXSwapChain* GraphicsEngine::CreateSwapChain()
+{
+	return new DXSwapChain();
 }
 
 GraphicsEngine* GraphicsEngine::Instance()

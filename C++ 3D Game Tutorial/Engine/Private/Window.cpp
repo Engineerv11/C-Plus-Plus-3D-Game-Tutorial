@@ -26,6 +26,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
+		Window* window = reinterpret_cast<Window*>(reinterpret_cast<LPCREATESTRUCT>(lParam)->lpCreateParams);
+
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
+		window->SetWinID(hWnd);
+
 		window->OnCreate();
 		break;
 	}
@@ -79,7 +84,7 @@ bool Window::Init()
 	}
 
 	WinID = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, wc.lpszClassName, L"D3D11 Window", 
-		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, NULL);
+		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 768, NULL, NULL, NULL, this);
 
 	if (!WinID)
 	{
@@ -101,7 +106,6 @@ bool Window::Release()
 	{
 		return false;
 	}
-
 
 	return true;
 }
@@ -126,4 +130,16 @@ bool Window::Broadcast()
 bool Window::IsRuning()
 {
 	return bIsRuning;
+}
+
+void Window::SetWinID(HWND InWinID)
+{
+	WinID = InWinID;
+}
+
+RECT Window::GetClientRect()
+{
+	RECT rc;
+	::GetClientRect(WinID, &rc);
+	return rc;
 }

@@ -16,7 +16,8 @@ public:
 	bool Broadcast();
 	bool IsRuning();
 
-
+	void SetWinID(HWND InWinID);
+	RECT GetClientRect();
 
 protected:
 	HWND WinID;

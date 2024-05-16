@@ -12,5 +12,8 @@ public:
 	virtual void OnCreate() override;
 	virtual void OnUpdate() override;
 	virtual void OnDestory() override;
+
+private:
+	DXSwapChain* SwapChain;
 };
 
