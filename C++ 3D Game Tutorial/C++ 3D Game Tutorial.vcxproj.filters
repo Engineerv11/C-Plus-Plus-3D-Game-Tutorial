@@ -26,6 +26,7 @@
     </ClCompile>
     <ClCompile Include="Engine\Private\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\Private\DXSwapChain.cpp" />
+    <ClCompile Include="Engine\Private\DXDeviceContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Public\Window.h">
@@ -36,5 +37,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Public\GraphicsEngine.h" />
     <ClInclude Include="Engine\Public\DXSwapChain.h" />
+    <ClInclude Include="Engine\Public\DXDeviceContext.h" />
   </ItemGroup>
 </Project>

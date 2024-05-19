@@ -28,9 +28,25 @@ bool DXSwapChain::Init(HWND WinID, UINT Width, UINT Height)
 	desc.SampleDesc.Quality = 0;
 	desc.Windowed = TRUE;
 
-	HRESULT Result = GraphicsEngine::Instance()->DXGIFactory->CreateSwapChain(Device, &desc, &DXGISwapChain);
+	HRESULT result = GraphicsEngine::Instance()->DXGIFactory->CreateSwapChain(Device, &desc, &DXGISwapChain);
 
-	if (FAILED(Result))
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	ID3D11Texture2D* Surface = nullptr;
+	result = DXGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Surface));
+
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	result = Device->CreateRenderTargetView(Surface, NULL, &RenderTargetView);
+	Surface->Release();
+
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -43,6 +59,13 @@ bool DXSwapChain::Release()
 	DXGISwapChain->Release();
 
 	delete this;
+
+	return true;
+}
+
+bool DXSwapChain::Present(UINT SyncInterval)
+{
+	DXGISwapChain->Present(SyncInterval, NULL);
 
 	return true;
 }

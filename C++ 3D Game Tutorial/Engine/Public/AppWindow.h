@@ -15,5 +15,6 @@ public:
 
 private:
 	DXSwapChain* SwapChain;
+	DXDeviceContext* ImmediateContext;
 };
 

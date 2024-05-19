@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\DXDeviceContext.cpp" />
     <ClCompile Include="Engine\Private\AppWindow.cpp" />
     <ClCompile Include="App\Main.cpp" />
     <ClCompile Include="Engine\Private\Window.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Engine\Private\DXSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\DXDeviceContext.h" />
     <ClInclude Include="Engine\Public\AppWindow.h" />
     <ClInclude Include="Engine\Public\Window.h" />
     <ClInclude Include="Engine\Public\GraphicsEngine.h" />
