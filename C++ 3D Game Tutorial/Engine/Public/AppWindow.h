@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Window.h"
 #include "GraphicsEngine.h"
 
@@ -16,5 +17,8 @@ public:
 private:
 	DXSwapChain* SwapChain;
 	DXDeviceContext* ImmediateContext;
+	DXVertexBuffer* VertexBuffer;
+	DXVertexShader* VertexShader;
+	DXPixelShader* PixelShader;
 };
 

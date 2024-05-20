@@ -1,6 +1,12 @@
+#include <d3dcompiler.h>
+
 #include "DXSwapChain.h"
 #include "DXDeviceContext.h"
+#include "DXVertexBuffer.h"
+#include "DXVertexShader.h"
+#include "DXPixelShader.h"
 #include "GraphicsEngine.h"
+
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -58,6 +64,12 @@ bool GraphicsEngine::Init()
 
 bool GraphicsEngine::Release()
 {
+
+	if (VertexShader)VertexShader->Release();
+	if (PixelShader)PixelShader->Release();
+	if (VSBlob)VSBlob->Release();
+	if (PSBlob)PSBlob->Release();
+
 	DXGIDevice->Release();
 	DXGIAdapter->Release();
 	DXGIFactory->Release();
@@ -68,6 +80,57 @@ bool GraphicsEngine::Release()
 	return true;
 }
 
+bool GraphicsEngine::CompileVertexShader(const wchar_t* FileName, const char* EntryPoint, void** ShaderBytecode,SIZE_T* BytecodeLength)
+{
+	ID3DBlob* ErrorBlob = nullptr;
+
+	HRESULT result;
+
+	result = D3DCompileFromFile(FileName, nullptr, nullptr, EntryPoint, "vs_5_0", 0, 0, &Blob, &ErrorBlob);
+
+	if (!SUCCEEDED(result))
+	{
+		if (ErrorBlob)
+		{
+			ErrorBlob->Release();
+		}
+		return false;
+	}
+
+	*ShaderBytecode = Blob->GetBufferPointer();
+	*BytecodeLength = Blob->GetBufferSize();
+
+	return true;
+}
+
+bool GraphicsEngine::CompilePixelShader(const wchar_t* FileName, const char* EntryPoint, void** ShaderBytecode, SIZE_T* BytecodeLength)
+{
+	ID3DBlob* ErrorBlob = nullptr;
+
+	HRESULT result;
+
+	result = D3DCompileFromFile(FileName, nullptr, nullptr, EntryPoint, "ps_5_0", 0, 0, &Blob, &ErrorBlob);
+
+	if (!SUCCEEDED(result))
+	{
+		if (ErrorBlob)
+		{
+			ErrorBlob->Release();
+		}
+		return false;
+	}
+
+	*ShaderBytecode = Blob->GetBufferPointer();
+	*BytecodeLength = Blob->GetBufferSize();
+
+	return true;
+}
+
+void GraphicsEngine::ReleaseCompiledShader()
+{
+	if (Blob)Blob->Release();
+}
+
 DXSwapChain* GraphicsEngine::CreateSwapChain()
 {
 	return new DXSwapChain();
@@ -76,6 +139,39 @@ DXSwapChain* GraphicsEngine::CreateSwapChain()
 DXDeviceContext* GraphicsEngine::GetImmediateContext()
 {
 	return ImmediateContext;
+}
+
+DXVertexBuffer* GraphicsEngine::CreateVertexBuffer()
+{
+	return new DXVertexBuffer();
+}
+
+DXVertexShader* GraphicsEngine::CreateVertexShader(const void* ShaderBytecode, SIZE_T BytecodeLength)
+{
+	DXVertexShader* VertexShader = new DXVertexShader();
+
+	if (!VertexShader->Init(ShaderBytecode, BytecodeLength))
+	{
+		VertexShader->Release();
+
+		return nullptr;
+	}
+
+	return VertexShader;
+}
+
+DXPixelShader* GraphicsEngine::CreatePixelShader(const void* ShaderBytecode, SIZE_T BytecodeLength)
+{
+	DXPixelShader* PixelShader = new DXPixelShader();
+
+	if (!PixelShader->Init(ShaderBytecode, BytecodeLength))
+	{
+		PixelShader->Release();
+
+		return nullptr;
+	}
+
+	return PixelShader;
 }
 
 GraphicsEngine* GraphicsEngine::Instance()

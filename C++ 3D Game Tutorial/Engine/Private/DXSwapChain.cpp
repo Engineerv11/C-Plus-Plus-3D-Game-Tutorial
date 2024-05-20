@@ -16,6 +16,7 @@ bool DXSwapChain::Init(HWND WinID, UINT Width, UINT Height)
 	DXGI_SWAP_CHAIN_DESC desc;
 
 	ZeroMemory(&desc, sizeof(desc));
+
 	desc.BufferCount = 1;
 	desc.BufferDesc.Width = Width;
 	desc.BufferDesc.Height = Height;

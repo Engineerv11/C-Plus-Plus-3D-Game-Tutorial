@@ -59,6 +59,8 @@ void Window::OnDestory()
 bool Window::Init()
 {
 	WNDCLASSEX wc;
+
+	ZeroMemory(&wc, sizeof(wc));
 	
 	wc.cbClsExtra = NULL;
 	wc.cbSize = sizeof(WNDCLASSEX);
