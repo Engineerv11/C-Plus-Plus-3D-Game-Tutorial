@@ -18,7 +18,7 @@ public:
 private:
 	UINT VertexSize;
 	UINT VertexCount;
-	ID3D11Buffer* Buffer;
+	ID3D11Buffer* D3D11Buffer;
 	ID3D11InputLayout* InputLayout;
 
 private:

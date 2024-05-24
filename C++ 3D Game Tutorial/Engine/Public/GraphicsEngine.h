@@ -5,6 +5,7 @@
 class DXSwapChain;
 class DXDeviceContext;
 class DXVertexBuffer;
+class DXConstantBuffer;
 class DXVertexShader;
 class DXPixelShader;
 
@@ -24,6 +25,7 @@ public:
 	DXSwapChain* CreateSwapChain();
 	DXDeviceContext* GetImmediateContext();
 	DXVertexBuffer* CreateVertexBuffer();
+	DXConstantBuffer* CreateConstantBuffer();
 	DXVertexShader* CreateVertexShader(const void* ShaderBytecode,SIZE_T BytecodeLength);
 	DXPixelShader* CreatePixelShader(const void* ShaderBytecode, SIZE_T BytecodeLength);
 
@@ -49,6 +51,7 @@ private:
 private:
 	friend class DXSwapChain;
 	friend class DXVertexBuffer;
+	friend class DXConstantBuffer;
 	friend class DXVertexShader;
 	friend class DXPixelShader;
 };

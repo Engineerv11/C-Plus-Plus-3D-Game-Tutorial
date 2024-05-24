@@ -3,6 +3,7 @@
 #include "DXSwapChain.h"
 #include "DXDeviceContext.h"
 #include "DXVertexBuffer.h"
+#include "DXConstantBuffer.h"
 #include "DXVertexShader.h"
 #include "DXPixelShader.h"
 #include "GraphicsEngine.h"
@@ -144,6 +145,11 @@ DXDeviceContext* GraphicsEngine::GetImmediateContext()
 DXVertexBuffer* GraphicsEngine::CreateVertexBuffer()
 {
 	return new DXVertexBuffer();
+}
+
+DXConstantBuffer* GraphicsEngine::CreateConstantBuffer()
+{
+	return new DXConstantBuffer();
 }
 
 DXVertexShader* GraphicsEngine::CreateVertexShader(const void* ShaderBytecode, SIZE_T BytecodeLength)

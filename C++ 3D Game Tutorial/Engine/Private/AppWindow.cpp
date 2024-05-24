@@ -1,6 +1,7 @@
 #include "DXSwapChain.h"
 #include "DXDeviceContext.h"
 #include "DXVertexBuffer.h"
+#include "DXConstantBuffer.h"
 #include "DXVertexShader.h"
 #include "DXPixelShader.h"
 #include "AppWindow.h"
@@ -15,7 +16,15 @@ struct Vector3
 struct Vertex
 {
 	Vector3 Position;
+	Vector3 Position1;
 	Vector3 Color;
+	Vector3 Color1;
+};
+
+__declspec(align(16))
+struct Constant
+{
+	unsigned int Time;
 };
 
 AppWindow::AppWindow()
@@ -40,13 +49,14 @@ void AppWindow::OnCreate()
 
 	SwapChain->Init(WinID, rc.right - rc.left, rc.bottom - rc.top);
 
-	// 共4个顶点，前3个数字代表顶点坐标，后3个数字代表顶点颜色
+	// 共4个顶点，1-3代表顶点坐标，4-6代表顶点坐标，7-9代表顶点颜色，10-12代表顶点颜色
+	// 绘制图形使用的实际顶点坐标将根据实时获取的系统时间在1-3和4-6表示的坐标中插值以实现动画效果，颜色计算遵行相同的规则
 	Vertex Vertices[] =
 	{
-		{ -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f },
-		{ -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f },
-		{  0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f },
-		{  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.5f }
+		{ -0.5f, -0.5f, 0.0f, -0.32f, -0.11f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f },
+		{ -0.5f,  0.5f, 0.0f, -0.11f,  0.78f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.5f },
+		{  0.5f, -0.5f, 0.0f,  0.75f, -0.73f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.5f },
+		{  0.5f,  0.5f, 0.0f,  0.88f,  0.77f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f, 1.0f, 0.0f }
 	};
 
 	UINT VertexCount = ARRAYSIZE(Vertices);
@@ -70,16 +80,30 @@ void AppWindow::OnCreate()
 	PixelShader = GraphicsEngine::Instance()->CreatePixelShader(ShaderBytecode, BytecodeLength);
 
 	GraphicsEngine::Instance()->ReleaseCompiledShader();
+
+	Constant cst;
+	cst.Time = 0;
+
+	ConstantBuffer = GraphicsEngine::Instance()->CreateConstantBuffer();
+	ConstantBuffer->Init(&cst, sizeof(Constant));
 }
 
 void AppWindow::OnUpdate()
 {
 	Window::OnUpdate();
 
-	ImmediateContext->ClearRenderTarget(SwapChain, 0, 1, 0.5, 1);
+	ImmediateContext->ClearRenderTarget(SwapChain, 0, 0, 0, 1);
 
 	RECT rc = GetClientRect();
 	ImmediateContext->SetViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+	Constant cst;
+	cst.Time = GetTickCount();
+
+	ConstantBuffer->Update(ImmediateContext, &cst);
+
+	ImmediateContext->SetConstantBuffer(VertexShader, ConstantBuffer);
+	ImmediateContext->SetConstantBuffer(PixelShader, ConstantBuffer);
 
 	ImmediateContext->SetVertexShader(VertexShader);
 	ImmediateContext->SetPixelShader(PixelShader);

@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\DXConstantBuffer.cpp" />
     <ClCompile Include="Engine\Private\DXPixelShader.cpp" />
     <ClCompile Include="Engine\Private\DXVertexShader.cpp" />
     <ClCompile Include="Engine\Private\DXVertexBuffer.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="Engine\Private\DXSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\DXConstantBuffer.h" />
     <ClInclude Include="Engine\Public\DXPixelShader.h" />
     <ClInclude Include="Engine\Public\DXVertexShader.h" />
     <ClInclude Include="Engine\Public\DXVertexBuffer.h" />

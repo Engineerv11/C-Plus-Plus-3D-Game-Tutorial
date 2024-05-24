@@ -20,5 +20,6 @@ private:
 	DXVertexBuffer* VertexBuffer;
 	DXVertexShader* VertexShader;
 	DXPixelShader* PixelShader;
+	DXConstantBuffer* ConstantBuffer;
 };
 
